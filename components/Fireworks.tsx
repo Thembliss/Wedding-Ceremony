@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { useEffect, useRef } from "react";
 
@@ -142,7 +142,6 @@ export default function Fireworks({ duration = 6500 }: FireworksProps) {
         });
       }
 
-      // A few slower glowing embers for a softer luxury look.
       for (let i = 0; i < 16; i++) {
         const angle = random(0, Math.PI * 2);
         const speed = random(0.5, 1.7);
@@ -228,19 +227,22 @@ export default function Fireworks({ duration = 6500 }: FireworksProps) {
 
       const elapsed = now - startTime;
 
-      // Transparent canvas: the invitation/card underneath remains fully visible.
       ctx.clearRect(0, 0, width, height);
 
-      // Launch alternating side fireworks during the active period.
       if (elapsed < duration - 900 && now - lastBurst > 650) {
         launchRocket("left");
+
         window.setTimeout(() => {
           if (!stopped) launchRocket("right");
         }, 220);
 
         if (Math.random() < 0.3) {
           window.setTimeout(() => {
-            if (!stopped) launchRocket(Math.random() < 0.5 ? "left" : "right");
+            if (!stopped) {
+              launchRocket(
+                Math.random() < 0.5 ? "left" : "right"
+              );
+            }
           }, 380);
         }
 
@@ -307,10 +309,10 @@ export default function Fireworks({ duration = 6500 }: FireworksProps) {
       }
     };
 
-    // Start immediately with one burst from each side so the effect is obvious.
     window.setTimeout(() => {
       if (!stopped) {
         launchRocket("left");
+
         window.setTimeout(() => {
           if (!stopped) launchRocket("right");
         }, 280);
@@ -369,23 +371,30 @@ export default function Fireworks({ duration = 6500 }: FireworksProps) {
         className="fireworks-message"
         style={{
           position: "absolute",
-          inset: 0,
+          top: "40%",
+          left: 0,
+          right: 0,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          transform: "translateY(-50%)",
+          padding: "0 24px",
           pointerEvents: "none",
+          textAlign: "center",
         }}
       >
         <p
           style={{
             margin: 0,
+            maxWidth: "90vw",
             opacity: 0,
             animation:
               "fireworksTextIn 1.1s ease-out 0.35s forwards, fireworksTextOut 1s ease-in 4.8s forwards",
             color: "rgba(241,220,168,0.9)",
             fontFamily: "var(--serif)",
-            fontSize: "clamp(20px, 3vw, 34px)",
-            letterSpacing: "0.16em",
+            fontSize: "clamp(18px, 3vw, 34px)",
+            lineHeight: 1.2,
+            letterSpacing: "0.12em",
             textShadow:
               "0 0 24px rgba(217,184,120,0.45)",
           }}
